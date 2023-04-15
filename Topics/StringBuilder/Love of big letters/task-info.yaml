@@ -1,0 +1,30 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    import java.util.Scanner;
+
+    class EvenUpperCase {
+
+        public static String upperEvenLetters(String message) {
+            // write your code here
+            return null;
+        }
+
+        // Don't change the code below
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            String message = scanner.next();
+
+            System.out.println(upperEvenLetters(message));
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/23738#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 15 Apr 2023 19:22:19 UTC"
+record: -1
+submission_language: java11
