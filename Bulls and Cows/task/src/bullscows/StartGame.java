@@ -1,6 +1,7 @@
 package bullscows;
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class StartGame {
 
@@ -28,30 +29,30 @@ public class StartGame {
             userInput = scanner.nextLine();
             String[] userArray = userInput.split("");
 
-            /* Loop for checking bulls and cows */
+            // Loop for checking bulls and cows
 
-                for (String word : secretArray) {
+            for (String word : secretArray) {
 
-                    //Checking for cows
-                    if (userInput.contains(word) && (!(userArray[counterWordCheck].equals(word)))) {
-                        cows++;
-                    }
-
-                    //Checking for bulls
-                    if (userArray[counterWordCheck].equals(word)) {
-                        bulls++;
-                        counterWordCheck++;
-
-                        //If bulls are equal to 4 then reset the counter of cows.
-                        if (bulls == 4) {
-                            cows = 0;
-                        }
-
-                    } else {
-                        counterWordCheck++;
-                    }
-
+                //Checking for cows
+                if (userInput.contains(word) && (!(userArray[counterWordCheck].equals(word)))) {
+                    cows++;
                 }
+
+                //Checking for bulls
+                if (userArray[counterWordCheck].equals(word)) {
+                    bulls++;
+                    counterWordCheck++;
+
+                    //If bulls are equal to 4 then reset the counter of cows.
+                    if (bulls == 4) {
+                        cows = 0;
+                    }
+
+                } else {
+                    counterWordCheck++;
+                }
+
+            }
 
             //Printing the result depending on the bulls and cows found
             if (bulls == secretCodeLength) {
@@ -76,47 +77,94 @@ public class StartGame {
         }
     }
 
-    public String generateNumber(int userInput) {
+    public String generateNumber(int userInput, int possibleCharacters) {
+        //        Scanner scanner = new Scanner(System.in);
         //Initializing variables and creating a new pseudoNumber
-        Scanner scanner = new Scanner(System.in);
-        long pseudoRandomNumber = System.nanoTime();
+        Random randomizer = new Random();
+        long pseudoRandomNumber = (long) (randomizer.nextDouble() * 9000000000L) + 1000000000L;
         StringBuilder sb = new StringBuilder();
-        int counter = 1;
+        int counterNumber = 1;
         String finalNumber = "";
+        int counterLetter = 0;
+
 
         //Taking user input and then converting the Long number to a String and splitting
         String randomNumber = String.valueOf(pseudoRandomNumber);
-        String[] randomArray = randomNumber.split("");
+        String[] randomArrayNumber = randomNumber.split("");
+        String alphabetLetters = "a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z";
+        String[] alphabetLettersArray = alphabetLetters.split(", ");
+        int lastNumberOnRandom = Integer.parseInt(randomArrayNumber[randomArrayNumber.length - counterNumber]);
 
-        /* Checking if the number contains a zero at the end,
+        /* Checking if the Random Number contains a zero at the end,
          if it does then is going to create a new random number. */
-        while (true) {
-            if (randomArray[randomArray.length - 1].equals("0")) {
-                pseudoRandomNumber = System.nanoTime();
-                randomNumber = String.valueOf(pseudoRandomNumber);
-                randomArray = randomNumber.split("");
-            } else {
-                break;
-            }
-        }
+//        while (true) {
+//            if (randomArray[randomArray.length - 1].equals("0")) {
+//                pseudoRandomNumber = (long) (randomizer.nextDouble() * 9000000000L) + 1000000000L;
+//                randomNumber = String.valueOf(pseudoRandomNumber);
+//                randomArray = randomNumber.split("");
+//            } else {
+//                break;
+//            }
+//        }
 
-        //Checking if the input number is greater than zero and less than 11
-        if (userInput <= 0 || userInput >= 11) {
-            System.out.println("Error: can't generate a secret number with a length of 11 because there aren't enough unique digits.");
-        } else {
-            //Concatenating the random number by the specified amount input by the user.
+        //Conditions to s
+        if (userInput <= 0) {
+            System.out.println("Error: can't generate a secret number with a length of zero.");
+        } else if (possibleCharacters >= 1 && possibleCharacters <= 10) {
             for (int i = 0; i < userInput; i++) {
-                if (sb.toString().contains(randomArray[randomArray.length - counter])) {
-                    /*If the arranged string have repeated character then create another random number,
+                if (sb.toString().contains(randomArrayNumber[randomArrayNumber.length - counterNumber])) {
+                    /* If the arranged string have repeated character then create another random number,
                     also don't add the number and check again */
-                    pseudoRandomNumber = System.nanoTime();
+                    pseudoRandomNumber = (long) (randomizer.nextDouble() * 9000000000L) + 1000000000L;
                     randomNumber = String.valueOf(pseudoRandomNumber);
-                    randomArray = randomNumber.split("");
+                    randomArrayNumber = randomNumber.split("");
                     --i;
                 } else {
                     //Appending the string.
-                    sb.append(randomArray[randomArray.length - counter]);
-                    counter++;
+                    sb.append(randomArrayNumber[randomArrayNumber.length - counterNumber]);
+                    counterNumber++;
+                }
+            }
+            finalNumber = sb.toString();
+            return finalNumber;
+        } else if (possibleCharacters >= 11) {
+            //Concatenating the random number by the specified amount input by the user.
+            for (int i = 0; i < userInput; i++) {
+                /* A number that changes from 1 to 2 everytime the loop is completed,
+                   if the number is 1: a number will be added to the randomNumber,
+                   otherwise a letter will be added to the randomNumber.              */
+                int numberOrLetter = randomizer.nextInt(2) + 1;
+
+                if  (counterNumber == 11) {
+                    numberOrLetter = 2;
+                }
+
+                switch (numberOrLetter) {
+                    case 1 -> {
+                        if (sb.toString().contains(randomArrayNumber[randomArrayNumber.length - 1])) {
+                    /* If the arranged string have repeated character then create another random number,
+                    also don't add the number and check again */
+                            pseudoRandomNumber = (long) (randomizer.nextDouble() * 9000000000L) + 1000000000L;
+                            randomNumber = String.valueOf(pseudoRandomNumber);
+                            randomArrayNumber = randomNumber.split("");
+                            --i;
+                        } else {
+                            //Appending the string.
+                            sb.append(randomArrayNumber[randomArrayNumber.length - 1]);
+                            counterNumber++;
+                        }
+                    }
+                    case 2 -> {
+                        if (sb.toString().contains(alphabetLettersArray[counterLetter])) {
+                    /* If the arranged string have repeated character then create another random number,
+                    also don't add the letter and check again */
+                            counterLetter++;
+                            --i;
+                        } else {
+                            sb.append(alphabetLettersArray[counterLetter]);
+                            counterLetter++;
+                        }
+                    }
                 }
             }
             finalNumber = sb.toString();
