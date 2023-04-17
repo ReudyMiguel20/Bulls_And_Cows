@@ -78,7 +78,6 @@ public class StartGame {
     }
 
     public String generateNumber(int userInput, int possibleCharacters) {
-        //        Scanner scanner = new Scanner(System.in);
         //Initializing variables and creating a new pseudoNumber
         Random randomizer = new Random();
         long pseudoRandomNumber = (long) (randomizer.nextDouble() * 9000000000L) + 1000000000L;
@@ -87,7 +86,6 @@ public class StartGame {
         String finalNumber = "";
         int counterLetter = 0;
 
-
         //Taking user input and then converting the Long number to a String and splitting
         String randomNumber = String.valueOf(pseudoRandomNumber);
         String[] randomArrayNumber = randomNumber.split("");
@@ -95,19 +93,8 @@ public class StartGame {
         String[] alphabetLettersArray = alphabetLetters.split(", ");
         int lastNumberOnRandom = Integer.parseInt(randomArrayNumber[randomArrayNumber.length - counterNumber]);
 
-        /* Checking if the Random Number contains a zero at the end,
-         if it does then is going to create a new random number. */
-//        while (true) {
-//            if (randomArray[randomArray.length - 1].equals("0")) {
-//                pseudoRandomNumber = (long) (randomizer.nextDouble() * 9000000000L) + 1000000000L;
-//                randomNumber = String.valueOf(pseudoRandomNumber);
-//                randomArray = randomNumber.split("");
-//            } else {
-//                break;
-//            }
-//        }
 
-        //Conditions to s
+        //If-else statements to determine which numbers are going to be added given the length and the possible symbols
         if (userInput <= 0) {
             System.out.println("Error: can't generate a secret number with a length of zero.");
         } else if (possibleCharacters >= 1 && possibleCharacters <= 10) {
@@ -135,7 +122,7 @@ public class StartGame {
                    otherwise a letter will be added to the randomNumber.              */
                 int numberOrLetter = randomizer.nextInt(2) + 1;
 
-                if  (counterNumber == 11) {
+                if (counterNumber == 11) {
                     numberOrLetter = 2;
                 }
 
